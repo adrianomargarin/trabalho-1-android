@@ -1,6 +1,24 @@
 <resources>
-    <string name="app_name">Trabalho-1-android</string>
+    <string name="app_name">Trabalho 1</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="txtTitulo">Título</string>
+    <string name="btnSalvar">Salvar</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_add_nova_categoria">AddNovaCategoria</string>
+    <string name="tituloErro">Erro</string>
+    <string name="mensagemErro">Ocorreu um erro ao salvar!</string>
+    <string name="botaoErro">Fechar</string>
+
+    <string name="nomeCategIndex">Nome</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="adicionarCategoria">Adicionar Categoria</string>
+    <string name="title_activity_add_novo_orcamento">AddNovoOrcamento</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="txtLoja">Loja</string>
+    <string name="txtValor">Valor</string>
+    <string name="txtPagamento">Pagamento</string>
+    <string name="txtCategoria">Categoria</string>
+    <string name="txtObservacao">Observação</string>
 </resources>
