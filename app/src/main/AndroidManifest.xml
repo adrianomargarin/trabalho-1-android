@@ -44,6 +44,10 @@
             android:name=".AddNovoOrcamento"
             android:label="@string/title_activity_add_novo_orcamento" >
         </activity>
+        <activity
+            android:name=".ListaOrcamentos"
+            android:label="@string/title_activity_lista_orcamentos" >
+        </activity>
     </application>
 
 </manifest>

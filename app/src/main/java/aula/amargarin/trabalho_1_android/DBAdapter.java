@@ -29,6 +29,7 @@ public class DBAdapter {
     static final String KEY_ORCA_OBSERV="observ";
     static final String KEY_ORCA_PICTURE="picture";
     static final String KEY_ORCA_IDCATEG="_idCateg";
+
     static final String VIEW = "ViewOrca";
 
     private static final int DATABASE_VERSION = 2;
@@ -137,8 +138,7 @@ public class DBAdapter {
     }
 
     public Cursor getCategoria(String nome){
-        String colunas[] = {KEY_CATEG_NOME};
-        return db.rawQuery("select * from categ where _id = ?", new String[] { nome });
+        return db.rawQuery("select * from categ where nome = ?", new String[] { nome });
     }
 
     //--- devolve todos as Categoria ---
@@ -149,7 +149,12 @@ public class DBAdapter {
 
     //--- devolve todos os orcamentos---
     public Cursor getTodosOrca(){
-        String [] colunas =new String[]{"_id",KEY_ORCA_LOJA, KEY_ORCA_VALOR,KEY_ORCA_PAGTO,KEY_ORCA_OBSERV,KEY_ORCA_PICTURE, KEY_ORCA_IDCATEG };
-        return db.query(VIEW, colunas, null, null, null, null, null);
+        String colunas[] = {KEY_ORCA_ID, KEY_ORCA_LOJA, KEY_ORCA_VALOR, KEY_ORCA_PAGTO, KEY_ORCA_OBSERV, KEY_ORCA_PICTURE, KEY_ORCA_IDCATEG };
+//        return db.query(VIEW, colunas, null, null, null, null, null);
+        return db.query(TABELA_ORCA, colunas, null, null, null, null, null);
+    }
+
+    public Cursor getOrcamentoById(String idCateg){
+        return db.rawQuery("select * from orca where _idCateg = ?", new String [] {idCateg} );
     }
 }

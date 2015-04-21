@@ -41,7 +41,6 @@ public class MainActivity extends Activity {
 
     public void CarregaArrayAdapter(){
         ListView lista = (ListView) findViewById(R.id.listView);
-        String[] strings = new String[] {};
 
         ArrayList<String> lista2 = new ArrayList<String>();
 
@@ -57,6 +56,38 @@ public class MainActivity extends Activity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lista2);
 
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent it = new Intent(MainActivity.this, ListaOrcamentos.class);
+
+                TextView textView = (TextView) view;
+
+                DBAdapter db = new DBAdapter(MainActivity.this);
+                db.open();
+
+                Cursor cursorCategoria = db.getCategoria(textView.getText().toString());
+                cursorCategoria.moveToFirst();
+
+                ArrayList<String> lista = new ArrayList<String>();
+
+                Cursor cursorOrcamento = db.getOrcamentoById(cursorCategoria.getString(cursorCategoria.getColumnIndex("_id")));
+
+                for(int i=0; i < cursorOrcamento.getCount(); i++){
+                    cursorOrcamento.moveToPosition(i);
+                    int indexLoja = cursorOrcamento.getColumnIndex("loja");
+                    int indexValor = cursorOrcamento.getColumnIndex("valor");
+                    String append = cursorOrcamento.getString(indexLoja) + " - R$ " + cursorOrcamento.getString(indexValor);
+                    lista.add(append);
+                }
+                db.close();
+
+                it.putExtra("lista", lista);
+
+                startActivity(it);
+            }
+        });
+
         lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -67,22 +98,16 @@ public class MainActivity extends Activity {
             DBAdapter db = new DBAdapter(MainActivity.this);
             db.open();
             Cursor cursor = db.getCategoria(textView.getText().toString());
+            cursor.moveToFirst();
 
             it.putExtra("nameCateg", textView.getText());
-            it.putExtra("idCateg", cursor.getColumnIndex("_id"));
+            it.putExtra("idCateg", cursor.getString(cursor.getColumnIndex("_id")));
+
             db.close();
 
             startActivity(it);
 
             return false;
-            }
-        });
-
-
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Exibir lojas aqui
             }
         });
 

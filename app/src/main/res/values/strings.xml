@@ -23,4 +23,5 @@
     <string name="txtObservacao">Observação</string>
     <string name="title_activity_categ_list_view_adapter">CategListViewAdapter</string>
     <string name="txtVoltar">Voltar</string>
+    <string name="title_activity_lista_orcamentos">ListaOrcamentos</string>
 </resources>

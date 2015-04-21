@@ -19,19 +19,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 public class AddNovoOrcamento extends Activity {
 
     private static final int IMAGEM_SELECIONADA = 1;
+    private static String ID_CATEG = "";
 
     private long idLinha;
     private Button btnSalvar;
 
     private String nameCateg;
-    private int idCateg;
+//    private String idCateg;
 
     private EditText txtCategoria;
-    private EditText idCategoria;
+//    private EditText idCategoria;
     private EditText txtLoja;
     private EditText txtValor;
     private EditText txtPagamento;
@@ -59,16 +59,16 @@ public class AddNovoOrcamento extends Activity {
         if (extras != null){
             idLinha = extras.getLong("_id");
             nameCateg = extras.getString("nameCateg").toString();
-            idCateg = extras.getInt("idCateg");
+            ID_CATEG = extras.getString("idCateg").toString();
         }
 
         txtCategoria = (EditText) findViewById(R.id.txtCategoria);
         txtCategoria.setText(nameCateg);
         txtCategoria.setEnabled(false);
 
-        idCategoria = (EditText) findViewById(R.id.idCategoria);
-        idCategoria.setId(idCateg);
-        idCategoria.setVisibility(View.INVISIBLE);
+//        idCategoria = (EditText) findViewById(R.id.idCategoria);
+//        idCategoria.setId(idCateg);
+//        idCategoria.setVisibility(View.INVISIBLE);
 
         btnSalvar = (Button) findViewById(R.id.btnSalvar);
         btnSalvar.setOnClickListener(salvarOrcaButtonClicked);
@@ -118,20 +118,21 @@ public class AddNovoOrcamento extends Activity {
         try{
             DBAdapter db = new DBAdapter(this);
             db.open();
-            if (getIntent().getExtras() == null){
 
-                double valor = Double.parseDouble(txtValor.getText().toString());
-                int idCategAux = Integer.parseInt(idCategoria.getText().toString());
+//            if (getIntent().getExtras() == null) {
+                String valor = txtValor.getText().toString();
+//                int idCategAux = Integer.parseInt(idCategoria.getText().toString());
 
                 db.insereOrcamento(
-                   txtLoja.getText().toString(),
-                   valor,
-                   txtPagamento.getText().toString(),
-                   txtObservacao.getText().toString(),
-                   caminhoImagem,
-                   idCategAux
+                    txtLoja.getText().toString(),
+                    Double.parseDouble(valor),
+                    txtPagamento.getText().toString(),
+                    txtObservacao.getText().toString(),
+                    caminhoImagem,
+                    Integer.parseInt(ID_CATEG)
                 );
-            }
+//            }
+
             db.close();
         }catch(SQLException e){
             e.printStackTrace();
