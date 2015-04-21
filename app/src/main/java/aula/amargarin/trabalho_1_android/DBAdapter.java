@@ -7,6 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import static android.provider.Settings.Global.getString;
+
 /**
  * Created by amargarin on 19/04/15.
  */
@@ -29,7 +31,7 @@ public class DBAdapter {
     static final String KEY_ORCA_IDCATEG="_idCateg";
     static final String VIEW = "ViewOrca";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     static final String CRIA_TAB_CATEG = "CREATE TABLE " + TABELA_CATEG +
@@ -39,13 +41,11 @@ public class DBAdapter {
     static final String CRIA_TAB_ORCA =  "CREATE TABLE " + TABELA_ORCA +
             " (" + KEY_ORCA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,  " +
             KEY_ORCA_LOJA + " TEXT, " + KEY_ORCA_VALOR + " DOUBLE, " +
-            KEY_ORCA_PAGTO + " DOUBLE NOT NULL ," +
+            KEY_ORCA_PAGTO + " VARCHAR NOT NULL ," +
             KEY_ORCA_OBSERV + " VARCHAR ," +
             KEY_ORCA_PICTURE + " VARCHAR ," +
             KEY_ORCA_IDCATEG + " INTEGER ," +
-            "FOREIGN KEY (" +
-            KEY_ORCA_IDCATEG + ") REFERENCES " +
-            TABELA_CATEG +" (" + KEY_CATEG_ID + "));";
+            "FOREIGN KEY (" + KEY_ORCA_IDCATEG + ") REFERENCES " + TABELA_CATEG +" (" + KEY_CATEG_ID + "));";
 
 
     static final String CRIA_VIEW = "CREATE VIEW "+ VIEW +
@@ -125,9 +125,8 @@ public class DBAdapter {
     }
 
     //---insere um Orcamento na base da dados ---
-    public long insereOrcamento(int codOrca, String loja, double valor, double pagto, String observ, String picture, int idCateg){
+    public long insereOrcamento(String loja, double valor, String pagto, String observ, String picture, int idCateg){
         ContentValues cv=new ContentValues();
-        cv.put(KEY_ORCA_ID, codOrca);
         cv.put(KEY_ORCA_LOJA, loja);
         cv.put(KEY_ORCA_VALOR, valor);
         cv.put(KEY_ORCA_PAGTO, pagto);
@@ -137,17 +136,20 @@ public class DBAdapter {
         return db.insert(TABELA_ORCA, null, cv);
     }
 
+    public Cursor getCategoria(String nome){
+        String colunas[] = {KEY_CATEG_NOME};
+        return db.rawQuery("select * from categ where _id = ?", new String[] { nome });
+    }
+
     //--- devolve todos as Categoria ---
     public Cursor getTodosCateg(){
-        String [] colunas = new String[]{KEY_CATEG_ID, KEY_CATEG_NOME};
-        Cursor c = db.query(TABELA_CATEG, colunas, null, null, null, null, null);
-        return c;
+        String colunas[] = {KEY_CATEG_ID, KEY_CATEG_NOME};
+        return db.query(TABELA_CATEG, colunas, null, null, null, null, null);
     }
 
     //--- devolve todos os orcamentos---
     public Cursor getTodosOrca(){
         String [] colunas =new String[]{"_id",KEY_ORCA_LOJA, KEY_ORCA_VALOR,KEY_ORCA_PAGTO,KEY_ORCA_OBSERV,KEY_ORCA_PICTURE, KEY_ORCA_IDCATEG };
-        Cursor c = db.query(VIEW, colunas, null, null, null, null, null);
-        return c;
+        return db.query(VIEW, colunas, null, null, null, null, null);
     }
 }

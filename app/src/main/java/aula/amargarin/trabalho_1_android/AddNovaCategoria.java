@@ -2,6 +2,7 @@ package aula.amargarin.trabalho_1_android;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.database.SQLException;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,9 +14,10 @@ import android.widget.EditText;
 
 public class AddNovaCategoria extends Activity {
 
-    private long idLinha;
     private EditText txtTitulo;
+    private long idLinha;
     private Button btnSalvar;
+    private Button btnVoltar;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -34,7 +36,17 @@ public class AddNovaCategoria extends Activity {
 
         btnSalvar = (Button) findViewById(R.id.btnSalvar);
         btnSalvar.setOnClickListener(salvarCategButtonClicked);
+
+        btnVoltar = (Button) findViewById(R.id.btnVoltar);
+        btnVoltar.setOnClickListener(voltarMain);
     }
+
+    View.OnClickListener voltarMain = new View.OnClickListener(){
+        public void onClick(View v){
+            Intent it = new Intent(AddNovaCategoria.this, MainActivity.class);
+            startActivity(it);
+        }
+    };
 
     View.OnClickListener salvarCategButtonClicked = new View.OnClickListener(){
         public void onClick(View v){
@@ -94,10 +106,8 @@ public class AddNovaCategoria extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        Intent it = new Intent(AddNovaCategoria.this, MainActivity.class);
+        startActivity(it);
 
         return super.onOptionsItemSelected(item);
     }

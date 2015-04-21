@@ -9,7 +9,7 @@
     <string name="mensagemErro">Ocorreu um erro ao salvar!</string>
     <string name="botaoErro">Fechar</string>
 
-    <string name="nomeCategIndex">Nome</string>
+    <string name="nomeCategIndex">Nenhuma categoria cadastrada!</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -21,4 +21,6 @@
     <string name="txtPagamento">Pagamento</string>
     <string name="txtCategoria">Categoria</string>
     <string name="txtObservacao">Observação</string>
+    <string name="title_activity_categ_list_view_adapter">CategListViewAdapter</string>
+    <string name="txtVoltar">Voltar</string>
 </resources>

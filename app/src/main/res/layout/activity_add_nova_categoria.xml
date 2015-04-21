@@ -37,6 +37,13 @@
             android:layout_height="wrap_content"
             android:text="@string/btnSalvar" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Voltar"
+            android:id="@+id/btnVoltar"
+            android:onClick="btnVoltar"/>
+
     </LinearLayout>
 
 </RelativeLayout>

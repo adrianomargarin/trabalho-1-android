@@ -3,16 +3,24 @@ package aula.amargarin.trabalho_1_android;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+
 
 public class MainActivity extends Activity {
 
     private long idLinha;
-    private TextView nomeCateg;
+    private String nomeCateg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,31 +31,62 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume(){
         super.onResume();
-        new CarregaTodasCategorias().execute(idLinha);
+        ListaCategoriasInterface();
     }
 
-    // Executa a consulta em uma thead separada
-    private class CarregaTodasCategorias extends AsyncTask<Long, Object, Cursor>{
-        DBAdapter databaseConnector = new DBAdapter(MainActivity.this);
+    public void ListaCategoriasInterface(){
+        setContentView(R.layout.activity_main);
+        CarregaArrayAdapter();
+    }
 
-        @Override
-        protected Cursor doInBackground(Long... params){
-            databaseConnector.open();
-            return databaseConnector.getTodosCateg();
+    public void CarregaArrayAdapter(){
+        ListView lista = (ListView) findViewById(R.id.listView);
+        String[] strings = new String[] {};
+
+        ArrayList<String> lista2 = new ArrayList<String>();
+
+        DBAdapter db = new DBAdapter(this);
+        db.open();
+        Cursor cursor = db.getTodosCateg();
+        for(int i=0; i <cursor.getCount(); i++){
+            cursor.moveToPosition(i);
+            int index = cursor.getColumnIndex("nome");
+            lista2.add(cursor.getString(index));
         }
-        @Override
-        protected void onPostExecute(Cursor result) {
-            super.onPostExecute(result);
+        db.close();
 
-             if(result.moveToNext()){
-                 result.moveToFirst();
-                 int nomeCategIndex = result.getColumnIndex("nomeCategIndex");
-                 nomeCateg.setText(result.getString(nomeCategIndex));
-             }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lista2);
 
-            result.close();
-            databaseConnector.close();
-        }
+        lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent it = new Intent(MainActivity.this, AddNovoOrcamento.class);
+
+            TextView textView = (TextView) view;
+
+            DBAdapter db = new DBAdapter(MainActivity.this);
+            db.open();
+            Cursor cursor = db.getCategoria(textView.getText().toString());
+
+            it.putExtra("nameCateg", textView.getText());
+            it.putExtra("idCateg", cursor.getColumnIndex("_id"));
+            db.close();
+
+            startActivity(it);
+
+            return false;
+            }
+        });
+
+
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Exibir lojas aqui
+            }
+        });
+
+        lista.setAdapter(adapter);
     }
 
     @Override
@@ -64,12 +103,8 @@ public class MainActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            startActivity(new Intent("aula.amargarin.trabalho_1_android.AddNovaCategoria"));
-            return true;
-        }
-
+        Intent it = new Intent(MainActivity.this, AddNovaCategoria.class);
+        startActivity(it);
 
         return super.onOptionsItemSelected(item);
     }

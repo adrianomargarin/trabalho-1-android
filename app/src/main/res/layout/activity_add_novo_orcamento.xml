@@ -9,10 +9,11 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/labelCategoria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/txtCategoria"
@@ -24,12 +25,10 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:ems="10" >
-
-            <requestFocus />
         </EditText>
 
         <TextView
-            android:id="@+id/txtLoja"
+            android:id="@+id/labelLoja"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/txtLoja"
@@ -44,7 +43,7 @@
         </EditText>
 
         <TextView
-            android:id="@+id/txtValor"
+            android:id="@+id/labelValor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/txtValor"
@@ -55,10 +54,10 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:ems="10"
-            android:id="@+id/txtPagamento" />
+            android:id="@+id/txtValor" />
 
         <TextView
-            android:id="@+id/txtPagamento"
+            android:id="@+id/labelPagamento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/txtPagamento"
@@ -73,7 +72,7 @@
         </EditText>
 
         <TextView
-            android:id="@+id/txtObservacao"
+            android:id="@+id/labelObservacao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/txtObservacao"
@@ -86,11 +85,24 @@
             android:ems="10"
             android:id="@+id/txtObservacao" />
 
+        <ImageView
+            android:layout_width="59dp"
+            android:layout_height="59dp"
+            android:id="@+id/imageView"
+            android:layout_gravity="center_horizontal" />
+
         <Button
             android:id="@+id/btnSalvar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/btnSalvar" />
 
+        <EditText
+            android:id="@+id/idCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10" >
+        </EditText>
     </LinearLayout>
 </RelativeLayout>
