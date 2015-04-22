@@ -90,7 +90,7 @@
             android:layout_height="59dp"
             android:id="@+id/imageView"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/images" />
 
         <Button
             android:id="@+id/btnSalvar"
